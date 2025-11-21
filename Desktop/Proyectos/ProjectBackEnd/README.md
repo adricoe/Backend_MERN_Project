@@ -1,60 +1,61 @@
-### Proyecto Backend (Gestion de Usuarios y Posts)
-Este es el backend desarrollado para mi proyecto, utilizando la arquitectura MERN stack (MongoDB, Express, Node.js).
-El objetivo principal es gestionar un sistema para usuarios y contenido (posts), garantizando la integridad y seguridad de los datos
-mediante la autenticación por token.
+# Proyecto Backend (Gestión de Usuarios y Posts)
 
-----------------------------------------------------------------------------------------------
-### Cumplimiento de Requisitos
+Este es el Backend desarrollado para el proyecto, utilizando la arquitectura **MERN stack** (MongoDB, Express, Node.js). El objetivo principal es gestionar un sistema para usuarios y contenido (**Posts**), garantizando la integridad y seguridad de los datos mediante la autenticación por token.
 
-[x] Creación de al menos 2 modelos: Se han creado los modelos Usuario y Post.
-[x] Al menos 1 punto de datos relacionado: Relación 1: Una post pertenece a un usuario (autor). Relación 2: Un usuario tiene muchos posts en Favoritos.
-[x] Diferentes roles de usuario + middleware de autenticación: Roles implementados: usuario y administrador. Middlewares: isAuth (verifica el token) y checkRole (verifica si el usuario es administrador).
-[x] Carga de archivos con Cloudinary + eliminación: Las imágenes se pueden cargar al actualizar el perfil (PUT /profile). Extra: Si se elimina un usuario, su post se elimina automáticamente de Cloudinary.
-[x] Semilla para una colección: se ha creado el archivo src/seeders/postSeeder.js. Genera un usuario administrador y posts de prueba.
-[x] Evitar duplicados y pérdida de datos: uso de $addToSet en Favoritos para evitar que el mismo post se añada dos veces. Validaciones en el esquema para garantizar la integridad de los datos.
-[x] CRUD completo para todas las colecciones: rutas para leer, crear, editar y eliminar tanto para usuarios como para posts.
+---
 
-----------------------------------------------------------------------------------------------
+## Cumplimiento de Requisitos
+
+- **Creación de 2 modelos como mínimo**: Modelos User y Post creados.
+- **1 dato relacionado como mínimo**: Relación de Autoría y Favoritos.
+- **Diferentes roles de usuario + Middleware Auth**: Roles user y admin usando Middlewares isAuth y checkRole.
+- **Subida de ficheros con Cloudinary + Eliminación**: Funcionalidad de subida de imagen de perfil. La imagen se borra automáticamente de Cloudinary al eliminar la cuenta.
+- **Semilla (Seed) para una colección**: El archivo src/seeders/postSeeder.js genera el usuario administrador inicial y datos de prueba.
+- **Evitar duplicados y pérdida de datos**: Se usa $addToSet para evitar que se repitan los Posts en Favoritos.
+- **CRUD completo de todas las colecciones**: Rutas de Creación, Lectura, Actualización y Eliminación para Usuarios y Posts.
+
+---
 
 ## Cómo iniciar el proyecto
 
-# 1. Instalación
-Instala todas las dependencias del proyecto.
-# Bash: npm install
+### 1. Instalación
+Instala todas las dependencias del proyecto:
+npm install
 
+### 2. Configuración (.env)
+Debe crear un archivo .env en la raíz del proyecto. Este archivo debe contener las siguientes claves, reemplazando los corchetes con las credenciales correspondientes:
 
-# 2. Configuración (.env)
-Crea un archivo .env en el directorio raíz con tus claves:
+PORT=4000
+MONGODB_URI=[SU_URI_DE_MONGO_ATLAS]
+JWT_SECRET=[UNA_CLAVE_SECRETA_LARGA]
+CLOUDINARY_CLOUD_NAME=[SU_CLOUD_NAME]
+CLOUDINARY_API_KEY=[SU_API_KEY]
+CLOUDINARY_API_SECRET=[SU_API_SECRET]
 
-PlaintextPORT=4000
-MONGODB_URI=[TU_MONGO_URI]
-JWT_SECRET=[TU_CLAVE_SECRETA_COMPLEJA]
-CLOUDINARY_CLOUD_NAME=[TU_NOMBRE_DE_LA_NUBE]
-CLOUDINARY_API_KEY=[TU_CLAVE_DE_API]
-CLOUDINARY_API_SECRET=[TU_SECRETO_DE_API]
+### 3. Carga de Datos (Seed)
+Para crear el usuario Admin y datos de prueba:
+node src/seeders/postSeeder.js
 
+### 4. Arrancar el Servidor
+npm run dev
 
-# 3. Carga de datos (seed)
-Para crear el usuario administrador y los datos de prueba: 
-## Bash: node src/seeders/postSeeder.js
+---
 
-# 4. Iniciar el servidor 
-# Bash: npm run dev
-----------------------------------------------------------------------------------------------
+## Rutas Principales (API)
 
-### Rutas Principales (API)
+Todas las rutas comienzan con el prefijo /api.
 
-# Usuarios
+**Usuarios y Autenticación**
 
-POST /api/auth/register - Registrarse
-POST /api/auth/login - Entrar (Login)
-PUT /api/users/profile - Subir foto / Editar perfil
-GET /api/users - Ver todos (Solo Admin)
-DELETE /api/users/:id - Borrar usuario
+- POST /api/auth/register - Registrarse
+- POST /api/auth/login - Entrar (Login)
+- PUT /api/users/profile - Actualizar perfil (soporta imagen)
+- GET /api/users - Lista todos los usuarios (Solo Admin)
+- DELETE /api/users/:id - Elimina cuenta (Dueño/Admin)
 
-# Posts
+**Posts**
 
-GET /api/posts - Ver posts
-POST /api/posts - Crear post
-PUT /api/posts/:id - Editar post
-DELETE /api/posts/:id - Borrar post
+- GET /api/posts - Lista todos los posts
+- POST /api/posts - Crea un nuevo post
+- PUT /api/posts/:id - Edita un post
+- DELETE /api/posts/:id - Elimina un post
