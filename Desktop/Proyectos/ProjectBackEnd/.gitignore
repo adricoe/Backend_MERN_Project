@@ -1,0 +1,10 @@
+# Dependencies
+/node_modules
+
+# Keys and passwords (critical!)
+.env
+
+# Logs and cache
+npm-debug.log*
+yarn-debug.log*
+.DS_Store
